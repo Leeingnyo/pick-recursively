@@ -37,7 +37,10 @@ pick(target1, query1);
 이것의 결과는 다음과 같이 나타날 것입니다.
 
 ```js
-{ name: 'Leeingnyo' }
+{
+  name: 'Leeingnyo',
+  uri: 'https://github.com/Leeingnyo/pick-recursively'
+}
 ```
 
 ### Case 2. 중첩된 속성 가져오기

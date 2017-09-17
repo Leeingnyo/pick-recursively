@@ -35,7 +35,10 @@ pick(target1, query1);
 The result is
 
 ```js
-{ name: 'Leeingnyo' }
+{
+  name: 'Leeingnyo',
+  uri: 'https://github.com/Leeingnyo/pick-recursively'
+}
 ```
 
 ### Case 2. Pick Nested Properties
