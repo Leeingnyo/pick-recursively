@@ -11,7 +11,7 @@ const pick = function (object, query) {
 const pickHelper = function (object, query) {
   return key => {
     let innerObject = object[key], innerQuery = query[key];
-    if (innerQuery instanceof Object) {
+    if (typeof innerQuery === 'object' && innerQuery !== null) {
       if (Array.isArray(innerObject)) {
         innerObject = innerObject.map(item => pick(item, innerQuery[Object.keys(innerQuery)[0]]));
       } else {
