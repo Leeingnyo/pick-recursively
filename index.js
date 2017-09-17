@@ -1,31 +1,18 @@
-const pick = function (object, query) {
-  if (typeof object !== 'object' || object === null) {
-    return object;
+module.exports = function pick(target, query) {
+  if (typeof target !== 'object' || target === null) {
+    return target;
+  } else if (Array.isArray(target)) {
+    return target.map(item => pick(item, query[Object.keys(query)[0]]));
+  } else if (typeof query === 'string') {
+    return { [query]: target[query] };
+  } else if (Array.isArray(query)) {
+    return query.filter(q => typeof q === 'string')
+        .reduce((result, key) => Object.assign(result, { [key]: target[key] }), {});
+  } else if (typeof query === 'object' && query !== null) {
+    return Object.keys(query).filter(q => target.hasOwnProperty(q))
+        .reduce((result, key) => Object.assign(result, {
+          [key]: pick(target[key], query[key])
+        }), {});
   }
-  try {
-    return Object.keys(query)
-        .map(pickHelper(object, query))
-        .reduce((c, p) => Object.assign({}, c, p), {})
-  } catch (err) {
-    return object;
-  }
+  return target;
 }
-
-const pickHelper = function (object, query) {
-  return key => {
-    let innerObject = object[key], innerQuery = query[key];
-    if (typeof innerQuery === 'object' && innerQuery !== null) {
-      if (Array.isArray(innerObject)) {
-        innerObject = innerObject.map(item => pick(item, innerQuery[Object.keys(innerQuery)[0]]));
-      } else {
-        innerObject = pick(innerObject, innerQuery);
-      }
-    }
-    if (innerObject === undefined) {
-      return {};
-    }
-    return { [key]: innerObject };
-  }
-};
-
-module.exports = pick;

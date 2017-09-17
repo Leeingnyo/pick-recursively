@@ -9,13 +9,16 @@ const target1 = {
 };
 const query1 = {
   author: true, // pick a property author
-  uri: 'uri', // you can use anything except an instance of Object to pick a property
+  uri: 0, // you can use anything (except an object, string) to pick a property
       // but I recommend to use true
   nothing: true // this property will be ignored (not exist at target object)
 };
 console.log(pick(target1, query1));
 /*
-{ name: 'Leeingnyo' }
+{
+  name: 'Leeingnyo',
+  uri: 'https://github.com/Leeingnyo/pick-recursively'
+}
 */
 
 // case 2
@@ -32,7 +35,7 @@ const target2 = {
   baz: 'baz'
 };
 const query2 = {
-  foo: 'foo', // pick a whole object
+  foo: true, // pick a whole object
   bar: {
     c: true // pick a property c in bar object
   }
@@ -138,5 +141,38 @@ console.log(pick(target5, {
       baz: 1
     }
   }
+}
+*/
+
+// case 6
+// string query
+console.log(pick(target1, 'author'));
+/*
+{ author: 'Leeingnyo' }
+*/
+console.log(pick(target1, ['author', 'uri']));
+/*
+{
+  name: 'Leeingnyo',
+  uri: 'https://github.com/Leeingnyo/pick-recursively'
+}
+*/
+console.log(pick(target3, {
+  arr: {
+    article: ['title', 'content']
+  },
+  count: true
+}));
+/*
+{
+  arr: [
+    { title: 'title 1',
+      content: 'content 1', },
+    { title: 'title 2',
+      content: 'content 2', },
+    { title: 'title 3',
+      content: 'content 3', }
+  ],
+  count: 3
 }
 */
