@@ -74,7 +74,7 @@ const query3 = {
   arr: { // if a type of target is array, the query object should have only one property
     element: { // you can use any name for the property
       title: true,
-    } // if it has properties more than one, it cause an undefined behavior
+    } // if it has properties more than one, it follows the implementation of Object.keys
   },
   count: true
 };

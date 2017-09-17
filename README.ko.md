@@ -55,7 +55,7 @@ const target2 = {
   baz: 'baz'
 };
 const query2 = {
-  foo: 'foo', // foo 오브젝트를 전부 가져옵니다
+  foo: true, // foo 오브젝트를 전부 가져옵니다
   bar: {
     c: true // bar 오브젝트의 c 속성을 가져옵니다
   }
