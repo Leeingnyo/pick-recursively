@@ -88,3 +88,55 @@ console.log(pick(target3, query3));
   count: 3
 }
 */
+
+// case 4
+// invalid target
+const query4 = {
+  foo: true
+};
+console.log(pick(undefined, query4));
+console.log(pick(null, query4));
+console.log(pick(NaN, query4));
+console.log(pick(true, query4));
+console.log(pick(0, query4));
+console.log(pick(1, query4));
+console.log(pick('', query4));
+console.log(pick('asdf', query4));
+/*
+undefined
+null
+NaN
+true
+0
+1
+
+asdf
+*/
+
+// case 5
+// fail query
+const target5 = {
+  foo: {
+    bar: {
+      baz: 1
+    }
+  }
+};
+console.log(pick(target5, {
+  foo: {
+    bar: {
+      baz: {
+        a: true
+      }
+    }
+  }
+}));
+/*
+{
+  foo: {
+    bar: {
+      baz: 1
+    }
+  }
+}
+*/

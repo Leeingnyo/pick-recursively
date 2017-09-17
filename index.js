@@ -1,4 +1,7 @@
 const pick = function (object, query) {
+  if (typeof object !== 'object' || object === null) {
+    return object;
+  }
   try {
     return Object.keys(query)
         .map(pickHelper(object, query))
