@@ -36,7 +36,7 @@ The result is
 
 ```js
 {
-  name: 'Leeingnyo',
+  author: 'Leeingnyo',
   uri: 'https://github.com/Leeingnyo/pick-recursively'
 }
 ```
@@ -175,7 +175,7 @@ console.log(pick(target1, 'author')); // pick the property 'author'
 console.log(pick(target1, ['author', 'uri'])); // pick the properties in the array
 /*
 {
-  name: 'Leeingnyo',
+  author: 'Leeingnyo',
   uri: 'https://github.com/Leeingnyo/pick-recursively'
 }
 */

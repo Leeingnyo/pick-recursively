@@ -37,7 +37,7 @@ pick(target1, query1);
 
 ```js
 {
-  name: 'Leeingnyo',
+  author: 'Leeingnyo',
   uri: 'https://github.com/Leeingnyo/pick-recursively'
 }
 ```
@@ -176,7 +176,7 @@ console.log(pick(target1, 'author')); // property author 를 가져옵니다
 console.log(pick(target1, ['author', 'uri'])); // 배열안의 property 들을 가져옵니다
 /*
 {
-  name: 'Leeingnyo',
+  author: 'Leeingnyo',
   uri: 'https://github.com/Leeingnyo/pick-recursively'
 }
 */

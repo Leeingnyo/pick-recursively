@@ -1,3 +1,5 @@
+const assert = require('assert');
+
 const pick = require('.');
 
 // case 1
@@ -13,13 +15,10 @@ const query1 = {
       // but I recommend to use true
   nothing: true // this property will be ignored (not exist at target object)
 };
-console.log(pick(target1, query1));
-/*
-{
-  name: 'Leeingnyo',
+assert.deepEqual(pick(target1, query1), {
+  author: 'Leeingnyo',
   uri: 'https://github.com/Leeingnyo/pick-recursively'
-}
-*/
+});
 
 // case 2
 // pick nested property
@@ -40,21 +39,18 @@ const query2 = {
     c: true // pick a property c in bar object
   }
 };
-console.log(pick(target2, query2));
-/*
-{
+assert.deepEqual(pick(target2, query2), {
   foo: {
     a: 'a',
     b: 'b'
   },
   bar: { c: 'c' }
-}
-*/
+});
 
 // case 3
 // pick property in array
 const target3 = {
-  arr: [
+  articles: [
     {
       title: 'title 1',
       content: 'content 1',
@@ -74,47 +70,34 @@ const target3 = {
   count: 3
 };
 const query3 = {
-  arr: { // if a type of target is array, the query object should have only one property
+  articles: { // if a type of target is array, the query object should have only one property
     element: { // you can use any name for the property
       title: true,
     } // if it has properties more than one, it follows the implementation of Object.keys
   },
   count: true
 };
-console.log(pick(target3, query3));
-/*
-{
-  arr: [
+assert.deepEqual(pick(target3, query3), {
+  articles: [
     { title: 'title 1', },
     { title: 'title 2', },
     { title: 'title 3', } ],
   count: 3
-}
-*/
+});
 
 // case 4
 // invalid target
 const query4 = {
   foo: true
 };
-console.log(pick(undefined, query4));
-console.log(pick(null, query4));
-console.log(pick(NaN, query4));
-console.log(pick(true, query4));
-console.log(pick(0, query4));
-console.log(pick(1, query4));
-console.log(pick('', query4));
-console.log(pick('asdf', query4));
-/*
-undefined
-null
-NaN
-true
-0
-1
-
-asdf
-*/
+assert.equal(pick(undefined, query4), undefined);
+assert.equal(pick(null, query4), null);
+assert.ok(isNaN(pick(NaN, query4)));
+assert.equal(pick(true, query4), true);
+assert.equal(pick(0, query4), 0);
+assert.equal(pick(1, query4), 1);
+assert.equal(pick('', query4), '');
+assert.equal(pick('asdf', query4), 'asdf');
 
 // case 5
 // fail query
@@ -125,7 +108,7 @@ const target5 = {
     }
   }
 };
-console.log(pick(target5, {
+assert.deepEqual(pick(target5, {
   foo: {
     bar: {
       baz: {
@@ -133,39 +116,28 @@ console.log(pick(target5, {
       }
     }
   }
-}));
-/*
-{
+}), {
   foo: {
     bar: {
       baz: 1
     }
   }
-}
-*/
+});
 
 // case 6
 // string query
-console.log(pick(target1, 'author'));
-/*
-{ author: 'Leeingnyo' }
-*/
-console.log(pick(target1, ['author', 'uri']));
-/*
-{
-  name: 'Leeingnyo',
+assert.deepEqual(pick(target1, 'author'), { author: 'Leeingnyo' });
+assert.deepEqual(pick(target1, ['author', 'uri']), {
+  author: 'Leeingnyo',
   uri: 'https://github.com/Leeingnyo/pick-recursively'
-}
-*/
-console.log(pick(target3, {
-  arr: {
+});
+assert.deepEqual(pick(target3, {
+  articles: {
     article: ['title', 'content']
   },
   count: true
-}));
-/*
-{
-  arr: [
+}), {
+  articles: [
     { title: 'title 1',
       content: 'content 1', },
     { title: 'title 2',
@@ -174,5 +146,4 @@ console.log(pick(target3, {
       content: 'content 3', }
   ],
   count: 3
-}
-*/
+});
