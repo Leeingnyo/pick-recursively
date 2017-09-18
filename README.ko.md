@@ -35,8 +35,7 @@ pick(target1, query1);
 
 ```js
 {
-  author: 'Leeingnyo',
-  uri: 'https://github.com/Leeingnyo/pick-recursively'
+  author: 'Leeingnyo'
 }
 ```
 
