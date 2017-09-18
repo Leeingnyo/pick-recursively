@@ -25,8 +25,7 @@ const target1 = {
 };
 const query1 = {
   author: true, // pick a property author
-  uri: 0, // you can use anything (except an object, string) to pick a property
-      // but I recommend to use true
+  uri: 0, // you should use true to pick a property (others are ignored)
   nothing: true // this property will be ignored (not exist at target object)
 };
 pick(target1, query1);
@@ -36,8 +35,7 @@ The result is
 
 ```js
 {
-  author: 'Leeingnyo',
-  uri: 'https://github.com/Leeingnyo/pick-recursively'
+  author: 'Leeingnyo'
 }
 ```
 

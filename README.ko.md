@@ -25,9 +25,7 @@ const target1 = {
 };
 const query1 = {
   author: true, // author 속성을 가져옵니다
-  uri: 0, // Object 타입과 string이 아닌 걸 쓰시면 됩니다
-      // 그래도 true 를 기본적으로 사용해주세요
-      // true 가 너무 길다 싶으면 1을 사용
+  uri: 0, // property 를 가져오려면 true를 써주셔야 합니다
   nothing: true // 이 속성은 target1 에 없으므로 무시됩니다
 };
 pick(target1, query1);

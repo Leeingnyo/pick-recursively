@@ -10,9 +10,9 @@ module.exports = function pick(target, query) {
         .reduce((result, key) => Object.assign(result, { [key]: target[key] }), {});
   } else if (typeof query === 'object' && query !== null) {
     return Object.keys(query).filter(q => target.hasOwnProperty(q))
-        .reduce((result, key) => Object.assign(result, {
-          [key]: pick(target[key], query[key])
-        }), {});
+        .reduce((result, key) => Object.assign(result, (
+          query[key] === true || typeof query[key] === 'object' && query[key] !== null
+        ) ? { [key]: pick(target[key], query[key]) } : {}), {});
   }
   return target;
-}
+};
