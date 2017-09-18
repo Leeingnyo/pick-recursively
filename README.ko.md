@@ -2,8 +2,7 @@
 
 [English](README.md)
 
-`pick-resursively`는 [Lodash](https://lodash.com/)의 [pick](https://lodash.com/docs/4.17.4#pick)처럼
-`Object`에서 원하는 속성만 골라올 수 있는데, 중첩된 `Object`에서도 가능한 라이브러리입니다.
+`pick-resursively`는 중첩된 `Object`에서도 원하는 속성을 골라올 수 있는 라이브러리입니다.
 ES6 문법을 사용했습니다.
 
 ## 사용 예
@@ -26,9 +25,9 @@ const target1 = {
 };
 const query1 = {
   author: true, // author 속성을 가져옵니다
-  uri: 'uri', // Object 타입이 아닌 걸 쓰시면 됩니다
-      // 그런데 앞으로 동작이 바뀔 것 같으니 true 를 기본적으로 사용해주세요
-      // boolean 이외에는 추천하지 않음
+  uri: 0, // Object 타입과 string이 아닌 걸 쓰시면 됩니다
+      // 그래도 true 를 기본적으로 사용해주세요
+      // true 가 너무 길다 싶으면 1을 사용
   nothing: true // 이 속성은 target1 에 없으므로 무시됩니다
 };
 pick(target1, query1);
@@ -82,7 +81,7 @@ pick(target2, query2);
 
 ```js
 const target3 = {
-  arr: [
+  articles: [
     {
       title: 'title 1',
       content: 'content 1',
@@ -102,12 +101,11 @@ const target3 = {
   count: 3
 };
 const query3 = {
-  arr: { // 타겟에서의 타입이 Array면, 반드시 하나의 속성만 가져야 합니다.
-    element: { // 속성은 아무 이름이나 쓰셔도 됩니다
+  articles: { // 타겟에서의 타입이 Array면, 반드시 하나의 속성만 가져야 합니다.
+    article: { // 속성은 아무 이름이나 쓰셔도 됩니다
+        // 그래도 의미있는 이름을 쓰시는 것이 좋겠죠? (foreach 에 쓰시는 변수 이름처럼)
       title: true,
     } // 속성을 여러 개 쓰면 Object.keys() 의 첫번째 원소가 들어가게 됩니다
-    // 다른 라이브러리는 그냥 Array 면 알아서 들어가주는데 저도 그렇게 할까 싶음
-    // 하지만 열이 맞아서 좋은 걸
   },
   count: true
 };
@@ -118,10 +116,85 @@ pick(target3, query3);
 
 ```js
 {
-  arr: [
+  articles: [
     { title: 'title 1', },
     { title: 'title 2', },
     { title: 'title 3', }
+  ],
+  count: 3
+}
+```
+
+### Case 4. 잘못된 대상
+
+`target`의 타입은 오브젝트 일 것이라 기대되지만, 아닌 경우도 있을 것입니다.
+이런 경우 그냥 그대로 내보냅니다.
+
+```js
+const query4 = {
+  foo: true
+};
+console.log(pick(undefined, query4));
+console.log(pick(null, query4));
+console.log(pick(NaN, query4));
+console.log(pick(true, query4));
+console.log(pick(0, query4));
+console.log(pick(1, query4));
+console.log(pick('', query4));
+console.log(pick('asdf', query4));
+```
+
+이것의 결과는 다음과 같이 나타날 것입니다.
+
+```js
+undefined
+null
+NaN
+true
+0
+1
+
+asdf
+```
+
+### Case 5. 문자열 사용
+
+query를 object 만으로는 너무 장황하여 string과 array를 이용하여 정의했습니다.
+
+```js
+/*
+target1 = {
+  author: 'Leeingnyo',
+  uri: 'https://github.com/Leeingnyo/pick-recursively',
+  country: 'Korea'
+};
+*/
+console.log(pick(target1, 'author')); // property author 를 가져옵니다
+/*
+{ author: 'Leeingnyo' }
+*/
+console.log(pick(target1, ['author', 'uri'])); // 배열안의 property 들을 가져옵니다
+/*
+{
+  name: 'Leeingnyo',
+  uri: 'https://github.com/Leeingnyo/pick-recursively'
+}
+*/
+console.log(pick(target3, {
+  articles: {
+    article: ['title', 'content']
+  },
+  count: true // count 경우는 true 로 처리해야합니다
+}));
+/*
+{
+  articles: [
+    { title: 'title 1',
+      content: 'content 1', },
+    { title: 'title 2',
+      content: 'content 2', },
+    { title: 'title 3',
+      content: 'content 3', }
   ],
   count: 3
 }

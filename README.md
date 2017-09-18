@@ -25,7 +25,7 @@ const target1 = {
 };
 const query1 = {
   author: true, // pick a property author
-  uri: 'uri', // you can use anything except an instance of Object to pick a property
+  uri: 0, // you can use anything (except an object, string) to pick a property
       // but I recommend to use true
   nothing: true // this property will be ignored (not exist at target object)
 };
@@ -80,7 +80,7 @@ The result is
 
 ```js
 const target3 = {
-  arr: [
+  articles: [
     {
       title: 'title 1',
       content: 'content 1',
@@ -100,8 +100,9 @@ const target3 = {
   count: 3
 };
 const query3 = {
-  arr: { // if a type of target is array, the query object should have only one property
-    element: { // you can use any name for the property
+  articles: { // if a type of target is array, the query object should have only one property
+    article: { // you can use any name for the property
+        // but I recommend you to use a meaningful name (use a name you use in foreach statement)
       title: true,
     } // if it has properties more than one, it follows the implementation of Object.keys
   },
@@ -114,10 +115,85 @@ The result is
 
 ```js
 {
-  arr: [
+  articles: [
     { title: 'title 1', },
     { title: 'title 2', },
     { title: 'title 3', }
+  ],
+  count: 3
+}
+```
+
+### Case 4. Invalid Target
+
+If the type of `target` is not object, it just return `target`.
+
+```js
+const query4 = {
+  foo: true
+};
+console.log(pick(undefined, query4));
+console.log(pick(null, query4));
+console.log(pick(NaN, query4));
+console.log(pick(true, query4));
+console.log(pick(0, query4));
+console.log(pick(1, query4));
+console.log(pick('', query4));
+console.log(pick('asdf', query4));
+```
+
+The result is
+
+```js
+undefined
+null
+NaN
+true
+0
+1
+
+asdf
+```
+
+### Case 5. String Query
+
+Using query and object is verbose, I make another definition with string and array (like lodash's one).
+You can understand with following examples.
+
+```js
+/*
+target1 = {
+  author: 'Leeingnyo',
+  uri: 'https://github.com/Leeingnyo/pick-recursively',
+  country: 'Korea'
+};
+*/
+console.log(pick(target1, 'author')); // pick the property 'author'
+/*
+{ author: 'Leeingnyo' }
+*/
+console.log(pick(target1, ['author', 'uri'])); // pick the properties in the array
+/*
+{
+  name: 'Leeingnyo',
+  uri: 'https://github.com/Leeingnyo/pick-recursively'
+}
+*/
+console.log(pick(target3, {
+  articles: {
+    article: ['title', 'content']
+  },
+  count: true // to pick the property 'count', you should use 'count: true' syntax
+}));
+/*
+{
+  articles: [
+    { title: 'title 1',
+      content: 'content 1', },
+    { title: 'title 2',
+      content: 'content 2', },
+    { title: 'title 3',
+      content: 'content 3', }
   ],
   count: 3
 }
