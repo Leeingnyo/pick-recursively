@@ -38,10 +38,7 @@ const query2 = {
   }
 };
 assert.deepEqual(pick(target2, query2), {
-  foo: {
-    a: 'a',
-    b: 'b'
-  },
+  foo: { a: 'a', b: 'b' },
   bar: { c: 'c' }
 });
 
@@ -69,7 +66,7 @@ const target3 = {
 };
 const query3 = {
   articles: { // if a type of target is array, the query object should have only one property
-    element: { // you can use any name for the property
+    article: { // you can use any name for the property
       title: true,
     } // if it has properties more than one, it follows the implementation of Object.keys
   },
@@ -81,6 +78,13 @@ assert.deepEqual(pick(target3, query3), {
     { title: 'title 2', },
     { title: 'title 3', } ],
   count: 3
+});
+assert.deepEqual(pick({
+  arr: [ undefined, undefined, null ]
+}, {
+  arr: { ele: true }
+}), {
+  arr: [ undefined, undefined, null ]
 });
 
 // case 4
@@ -128,6 +132,14 @@ assert.deepEqual(pick(target1, 'author'), { author: 'Leeingnyo' });
 assert.deepEqual(pick(target1, ['author', 'uri']), {
   author: 'Leeingnyo',
   uri: 'https://github.com/Leeingnyo/pick-recursively'
+});
+assert.deepEqual(pick(target2, {
+  foo: ['a', 'b']
+}), {
+  foo: {
+    a: 'a',
+    b: 'b'
+  },
 });
 assert.deepEqual(pick(target3, {
   articles: {
