@@ -161,3 +161,43 @@ assert.deepEqual(pick(target1, ['author', 'uri', 'nothing']), {
   author: 'Leeingnyo',
   uri: 'https://github.com/Leeingnyo/pick-recursively'
 });
+
+// case 7
+// filter pick
+assert.deepEqual(pick(target1, {
+  author: true,
+  uri: uri => uri.indexOf('https') === 0
+}), {
+  author: 'Leeingnyo',
+  uri: 'https://github.com/Leeingnyo/pick-recursively'
+});
+assert.deepEqual(pick({
+  foo: undefined,
+  bar: {
+    baz: 1
+  }
+}, {
+  foo: true,
+  bar: item => {
+    return item.baz > 1
+  }
+}), {
+  foo: undefined
+});
+assert.deepEqual(pick(target3, {
+  articles: {
+    article: item => {
+      if (item.content.indexOf(2) < 0) {
+        return ['title', 'content'];
+      }
+      return false;
+    }
+  }
+}), {
+  articles: [
+    { title: 'title 1',
+      content: 'content 1', },
+    { title: 'title 3',
+      content: 'content 3', }
+  ]
+});
