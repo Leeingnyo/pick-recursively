@@ -1,0 +1,22 @@
+{
+  "name": "pick-recursively",
+  "version": "0.1.0",
+  "description": "Pick keys from an object recursively",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Leeingnyo/pick-recursively.git"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "author": "Leeingnyo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Leeingnyo/pick-recursively/issues"
+  },
+  "homepage": "https://github.com/Leeingnyo/pick-recursively#readme"
+}
