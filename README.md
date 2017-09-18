@@ -196,3 +196,7 @@ console.log(pick(target3, {
   count: 3
 }
 ```
+
+## License
+
+[MIT License](LICENSE)
