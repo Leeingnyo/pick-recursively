@@ -125,6 +125,13 @@ assert.deepEqual(pick(target5, {
     }
   }
 });
+assert.deepEqual(pick(target5, {
+  foo: {
+    bar: false
+  }
+}), {
+  foo: { }
+});
 
 // case 6
 // string query
