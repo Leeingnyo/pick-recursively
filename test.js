@@ -145,3 +145,7 @@ assert.deepEqual(pick(target3, {
   ],
   count: 3
 });
+assert.deepEqual(pick(target1, ['author', 'uri', 'nothing']), {
+  author: 'Leeingnyo',
+  uri: 'https://github.com/Leeingnyo/pick-recursively'
+});

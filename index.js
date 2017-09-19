@@ -7,6 +7,7 @@ module.exports = function pick(target, query) {
     return { [query]: target[query] };
   } else if (Array.isArray(query)) {
     return query.filter(q => typeof q === 'string')
+        .filter(q => target.hasOwnProperty(q))
         .reduce((result, key) => Object.assign(result, { [key]: target[key] }), {});
   } else if (typeof query === 'object' && query !== null) {
     return Object.keys(query).filter(q => target.hasOwnProperty(q))
