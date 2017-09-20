@@ -4,7 +4,7 @@
   "description": "Pick keys from an object recursively",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node test.js && node tests/*.js"
   },
   "repository": {
     "type": "git",
