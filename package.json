@@ -1,6 +1,6 @@
 {
   "name": "pick-recursively",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pick keys from an object recursively",
   "main": "index.js",
   "scripts": {
