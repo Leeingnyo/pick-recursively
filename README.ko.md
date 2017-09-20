@@ -102,7 +102,7 @@ const query3 = {
     article: { // 속성은 아무 이름이나 쓰셔도 됩니다
         // 그래도 의미있는 이름을 쓰시는 것이 좋겠죠? (foreach 에 쓰시는 변수 이름처럼)
       title: true,
-    } // 속성을 여러 개 쓰면 Object.keys() 의 첫번째 원소가 들어가게 됩니다
+    } // 속성을 여러 개 쓰면 Object.values() 의 첫번째 원소가 들어가게 됩니다
   },
   count: true
 };
@@ -122,7 +122,7 @@ pick(target3, query3);
 }
 ```
 
-### Case 4. 잘못된 대상
+### Case 4. 잘못된 대상과 질의
 
 `target`의 타입은 오브젝트 일 것이라 기대되지만, 아닌 경우도 있을 것입니다.
 이런 경우 그냥 그대로 내보냅니다.
@@ -131,14 +131,14 @@ pick(target3, query3);
 const query4 = {
   foo: true
 };
-console.log(pick(undefined, query4));
-console.log(pick(null, query4));
-console.log(pick(NaN, query4));
-console.log(pick(true, query4));
-console.log(pick(0, query4));
-console.log(pick(1, query4));
-console.log(pick('', query4));
-console.log(pick('asdf', query4));
+pick(undefined, query4);
+pick(null, query4);
+pick(NaN, query4);
+pick(true, query4);
+pick(0, query4);
+pick(1, query4);
+pick('', query4);
+pick('asdf', query4);
 ```
 
 이것의 결과는 다음과 같이 나타날 것입니다.
@@ -166,23 +166,50 @@ target1 = {
   country: 'Korea'
 };
 */
-console.log(pick(target1, 'author')); // property author 를 가져옵니다
+pick(target1, 'author'); // property author 를 가져옵니다
 /*
 { author: 'Leeingnyo' }
 */
-console.log(pick(target1, ['author', 'uri'])); // 배열안의 property 들을 가져옵니다
+pick(target1, ['author', 'uri', 'nothing']); // 배열안의 property 들을 가져옵니다. nothing 은 무시됩니다
 /*
 {
   author: 'Leeingnyo',
   uri: 'https://github.com/Leeingnyo/pick-recursively'
 }
 */
-console.log(pick(target3, {
+```
+
+중첩된 상황에서도 사용가능합니다.
+
+```js
+/*
+const target3 = {
+  articles: [
+    {
+      title: 'title 1',
+      content: 'content 1',
+      date: new Date()
+    },
+    {
+      title: 'title 2',
+      content: 'content 2',
+      date: new Date()
+    },
+    {
+      title: 'title 3',
+      content: 'content 3',
+      date: new Date()
+    }
+  ],
+  count: 3
+};
+*/
+pick(target3, {
   articles: {
     article: ['title', 'content']
   },
-  count: true // count 경우는 true 로 처리해야합니다
-}));
+  count: true // count 경우는 true 로 처리해야합니다 (string query 사용 불가)
+});
 /*
 {
   articles: [
@@ -195,6 +222,7 @@ console.log(pick(target3, {
   ],
   count: 3
 }
+*/
 ```
 
 ## License
