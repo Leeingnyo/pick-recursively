@@ -57,6 +57,24 @@ const pick = require('..');
 }
 
 {
+  const message = 'false query returns original target';
+  const target = {
+    foo: {
+      a: 'a',
+      b: 1
+    },
+    bar: true,
+    baz: undefined
+  };
+  const query = false;
+
+  const expected = Object.assign({}, target);
+  const actual = pick(target, query);
+
+  assert.deepEqual(actual, expected, message);
+}
+
+{
   const message = 'integer query returns original target';
   const target = {
     foo: {
