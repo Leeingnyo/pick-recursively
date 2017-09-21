@@ -8,7 +8,7 @@ module.exports = function pick(target, query) {
   } else if (Array.isArray(target)) {
     let innerQuery = Object.values(query)[0];
     return target.filter(item =>
-      typeof innerQuery === 'function' ? innerQuery(item) : true
+      typeof innerQuery === 'function' ? innerQuery(item) !== false : true
     ).map(item => pick(item, innerQuery));
   } else if (typeof query === 'string') {
     return target.hasOwnProperty(query) ? { [query]: target[query] } : {};
@@ -26,7 +26,7 @@ module.exports = function pick(target, query) {
             picked = { [key]: pick(innerTarget, innerQuery) };
           } else if (typeof innerQuery === 'function') {
             let evaluated = innerQuery(innerTarget);
-            if (evaluated) {
+            if (evaluated !== false) {
               picked = { [key]: pick(innerTarget, evaluated) };
             }
           }
