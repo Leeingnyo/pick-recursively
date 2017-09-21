@@ -20,7 +20,22 @@ const pick = require('..');
 }
 
 {
-  const message = 'empty string query returns nothing';
+  const message = 'empty string query returns empty string property';
+  const target = {
+    '': 'empty string'
+  };
+  const query = '';
+
+  const expected = {
+    '': 'empty string'
+  };
+  const actual = pick(target, query);
+
+  assert.deepEqual(actual, expected, message);
+}
+
+{
+  const message = 'not exist string query returns nothing';
   const target = {
     author: 'Leeingnyo',
     uri: 'https://github.com/Leeingnyo/pick-recursively',

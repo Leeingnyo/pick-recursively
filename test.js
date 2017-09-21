@@ -173,10 +173,10 @@ assert.deepEqual(pick(target1, ['author', 'uri', 'nothing']), {
 // filter pick
 assert.deepEqual(pick(target1, {
   author: true,
-  uri: uri => uri.indexOf('https') === 0
+  uri: uri => uri.indexOf('https') === 0 // pick a property 'uri' if uri value starts with https
 }), {
   author: 'Leeingnyo',
-  uri: 'https://github.com/Leeingnyo/pick-recursively'
+  uri: 'https://github.com/Leeingnyo/pick-recursively' // picked
 });
 assert.deepEqual(pick({
   foo: undefined,
@@ -186,24 +186,62 @@ assert.deepEqual(pick({
 }, {
   foo: true,
   bar: item => {
-    return item.baz > 1
+    return item.baz > 1; // pick a property 'bar' if value of 'bar' (object) has baz that is greater than 1
   }
 }), {
-  foo: undefined
+  foo: undefined // property 'bar' not picked
+});
+assert.deepEqual(pick({
+  articles: [
+    {
+      isSecret: false,
+      title: 'title 1'
+    },
+    {
+      isSecret: true,
+      title: 'title 2'
+    },
+    {
+      isSecret: false,
+      title: 'title 3'
+    }
+  ]
+}, {
+  articles: {
+    article: article => {
+      if (article.isSecret) return 'isSecret'; // return another query to current item (in this case, an article object)
+      return ['isSecret', 'title']; // array of string query is ok, too.
+    }
+  }
+}), {
+  articles: [
+    {
+      isSecret: false,
+      title: 'title 1'
+    },
+    {
+      isSecret: true
+    },
+    {
+      isSecret: false,
+      title: 'title 3'
+    }
+  ]
 });
 assert.deepEqual(pick(target3, {
   articles: {
-    article: item => {
-      if (item.content.indexOf(2) < 0) {
-        return ['title', 'content'];
+    article: article => {
+      if (article.content.indexOf('2') < 0) {
+        return ['title', 'content']; // return another query for article
       }
-      return false;
+      return false; // drop out articles which contains '2' in content
     }
   }
 }), {
   articles: [
     { title: 'title 1',
       content: 'content 1', },
+      // content 2 is dropped out
     { title: 'title 3',
       content: 'content 3', }
   ]

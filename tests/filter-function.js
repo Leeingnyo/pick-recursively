@@ -49,6 +49,42 @@ const pick = require('..');
 }
 
 {
+  const message = 'handle function query (2)';
+  const target = {
+    foo: 'bar'
+  };
+  const query = {
+    foo: () => false
+  };
+
+  const expected = { };
+  const actual = pick(target, query);
+
+  assert.deepEqual(actual, expected, message);
+}
+
+{
+  const message = 'the function works though it\'s falsy value';
+  const target = {
+    foo: {
+      '': 1
+    }
+  };
+  const query = {
+    foo: () => ''
+  };
+
+  const expected = {
+    foo: {
+      '': 1
+    }
+  };
+  const actual = pick(target, query);
+
+  assert.deepEqual(actual, expected, message);
+}
+
+{
   const message = 'handle function that returns another query (array of string)';
   const target = {
     number: 5,
