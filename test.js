@@ -189,21 +189,24 @@ assert.deepEqual(pick({
     return item.baz > 1; // pick a property 'bar' if value of 'bar' (object) has baz that is greater than 1
   }
 }), {
-  foo: undefined // property 'bar' not picked
+  foo: undefined // property 'bar' is not picked
 });
 assert.deepEqual(pick({
   articles: [
     {
       isSecret: false,
-      title: 'title 1'
+      title: 'title 1',
+      content: 'content 1'
     },
     {
       isSecret: true,
-      title: 'title 2'
+      title: 'title 2',
+      content: 'content 2'
     },
     {
       isSecret: false,
-      title: 'title 3'
+      title: 'title 3',
+      content: 'content 3'
     }
   ]
 }, {
@@ -246,3 +249,10 @@ assert.deepEqual(pick(target3, {
       content: 'content 3', }
   ]
 });
+/*
+console.log(pick(target1, target => {
+  target.uri = 0;
+  return 'uri';
+}));
+console.log(target1);
+*/

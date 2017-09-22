@@ -269,6 +269,32 @@ const pick = require('..');
 
 /*
 {
+  const message = 'filter functoin must not edit original target';
+  const target = {
+    uri: 'https://www.npmjs.com/package/pick-recursively'
+  };
+  const query = item => {
+    item.uri = 0;
+    return true;
+  };
+
+  const expected = {
+    uri: 'https://www.npmjs.com/package/pick-recursively'
+  };
+  const actual = pick(target, query);
+
+  assert.deepEqual(actual, expected, message);
+
+  const expectedTarget = {
+    uri: 'https://www.npmjs.com/package/pick-recursively'
+  };
+
+  assert.deepEqual(target, expectedTarget, message);
+}
+*/
+
+/*
+{
   const message = '';
   const target = {
   };

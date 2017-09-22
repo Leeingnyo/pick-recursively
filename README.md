@@ -155,7 +155,7 @@ asdf
 
 ### Case 5. String Query
 
-Using query and object is verbose, I make another definition with string and array (like lodash's one).
+Using query with object is verbose, I make another definition with string and array (like lodash's one).
 You can understand with following examples.
 
 ```js
@@ -224,6 +224,193 @@ pick(target3, {
 }
 */
 ```
+
+### Case 6. Filter Function
+
+You can use a function as a value of a query.
+the function sholud be unary function (should have at least one parameter)
+If it returns `false`, that property will be not picked.
+
+```js
+/* target1
+{
+  author: 'Leeingnyo',
+  uri: 'https://github.com/Leeingnyo/pick-recursively',
+  country: 'Korea'
+};
+*/
+pick(target1, {
+  author: true,
+  uri: uri => uri.indexOf('https') === 0 // pick if the protocol is https
+});
+
+// result
+{
+  author: 'Leeingnyo',
+  uri: 'https://github.com/Leeingnyo/pick-recursively' // picked
+}
+```
+
+You can do more complex one.
+
+```js
+pick({
+  foo: undefined,
+  bar: {
+    baz: 1
+  }
+}, {
+  foo: true,
+  bar: item => {
+    return item.baz > 1; // pick a property 'bar' if value of 'bar' (object) has baz that is greater than 1
+  }
+});
+
+// result
+{
+  foo: undefined // property 'bar' is not picked
+}
+```
+
+I'll show you more useful case
+If the return value of a function query is valid query,
+the returned query is applied to value which is the parameter of the function query.
+
+```js
+pick({
+  articles: [
+    {
+      isSecret: false,
+      title: 'title 1',
+      content: 'content 1'
+    },
+    {
+      isSecret: true,
+      title: 'title 2',
+      content: 'content 2'
+    },
+    {
+      isSecret: false,
+      title: 'title 3',
+      content: 'content 3'
+    }
+  ]
+}, {
+  articles: {
+    article: article => {
+      if (article.isSecret) return 'isSecret'; // run query 'isSecret' for article
+      return ['isSecret', 'title']; // array of string query is, too.
+    }
+  }
+});
+
+// result
+{
+  articles: [
+    {
+      isSecret: false,
+      title: 'title 1'
+    }, // pick 'isSecret', 'title'
+    {
+      isSecret: true // if isSecret is true
+    }, // pick only 'isSecret' property
+    {
+      isSecret: false,
+      title: 'title 3'
+    }
+  ]
+}
+```
+
+If target is an array, the function query is used for filter.
+If evaludated value is `false`, the element is dropped out from the array.
+
+```js
+/* target3
+{
+  articles: [
+    {
+      title: 'title 1',
+      content: 'content 1',
+      date: new Date()
+    },
+    {
+      title: 'title 2',
+      content: 'content 2',
+      date: new Date()
+    },
+    {
+      title: 'title 3',
+      content: 'content 3',
+      date: new Date()
+    }
+  ],
+  count: 3
+};
+*/
+pick(target3, {
+  articles: {
+    article: article => {
+      if (article.content.indexOf('2') < 0) {
+        return ['title', 'content']; // run query if satisfied
+      }
+      return false; // drop out articles which contains '2' in content
+    }
+  }
+}
+
+// result
+{
+  articles: [
+    {
+      title: 'title 1',
+      content: 'content 1',
+    },
+    // content 2 is dropped out
+    {
+      title: 'title 3',
+      content: 'content 3',
+    }
+  ]
+}
+```
+
+#### Notice
+
+When using function query, You can pick property changing the value of target.
+It could be that the target is changed.
+This behavior is not indented and notice that it could be fixed.
+
+```js
+/*
+target1 = {
+  author: 'Leeingnyo',
+  uri: 'https://github.com/Leeingnyo/pick-recursively',
+  country: 'Korea'
+};
+*/
+pick(target1, target => {
+  target.uri = 0;
+  return 'uri';
+});
+```
+
+The result is
+
+```js
+/* result */
+{
+  uri: 0
+}
+
+/* target1 */
+{
+  author: 'Leeingnyo',
+  uri: 0, // target is changed!
+  country: 'Korea'
+}
+```
+
 
 ## License
 
