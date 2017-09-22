@@ -228,7 +228,7 @@ pick(target3, {
 ### Case 6. Filter Function
 
 You can use a function as a value of a query.
-the function sholud be unary function (should have at least one parameter)
+The function sholud be unary function (should have at least one parameter)
 If it returns `false`, that property will be not picked.
 
 ```js
@@ -377,40 +377,7 @@ pick(target3, {
 
 #### Notice
 
-When using function query, You can pick property changing the value of target.
-It could be that the target is changed.
-This behavior is not indented and notice that it could be fixed.
-
-```js
-/*
-target1 = {
-  author: 'Leeingnyo',
-  uri: 'https://github.com/Leeingnyo/pick-recursively',
-  country: 'Korea'
-};
-*/
-pick(target1, target => {
-  target.uri = 0;
-  return 'uri';
-});
-```
-
-The result is
-
-```js
-/* result */
-{
-  uri: 0
-}
-
-/* target1 */
-{
-  author: 'Leeingnyo',
-  uri: 0, // target is changed!
-  country: 'Korea'
-}
-```
-
+target is preserved though you use function queries.
 
 ## License
 

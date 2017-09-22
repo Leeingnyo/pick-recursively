@@ -374,41 +374,9 @@ pick(target3, {
 }
 ```
 
-#### 주의
+#### Notice
 
-함수 쿼리를 사용하면 target 의 값을 변경하여 pick 을 할 수도 있고,
-target이 변경될 수도 있습니다.
-이는 의도하지 않은 동작이므로 앞으로 바뀔 수 있으니 사용하시는데 주의하시기 바랍니다.
-
-```js
-/*
-target1 = {
-  author: 'Leeingnyo',
-  uri: 'https://github.com/Leeingnyo/pick-recursively',
-  country: 'Korea'
-};
-*/
-pick(target1, target => {
-  target.uri = 0;
-  return 'uri';
-});
-```
-
-이것의 결과는 다음과 같습니다.
-
-```js
-/* result */
-{
-  uri: 0
-}
-
-/* target1 */
-{
-  author: 'Leeingnyo',
-  uri: 0, // target is changed!
-  country: 'Korea'
-}
-```
+function query 를 사용하셔도 target은 보존됩니다.
 
 ## License
 
