@@ -267,7 +267,6 @@ const pick = require('..');
   assert.deepEqual(actual, expected, message);
 }
 
-/*
 {
   const message = 'filter functoin must not edit original target';
   const target = {
@@ -291,7 +290,6 @@ const pick = require('..');
 
   assert.deepEqual(target, expectedTarget, message);
 }
-*/
 
 /*
 {

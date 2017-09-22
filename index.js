@@ -1,7 +1,10 @@
 'use strict';
+
+const clone = require('clone-deep');
+
 module.exports = function pick(target, query) {
   if (typeof query === 'function') {
-    let evaluated = query(target);
+    let evaluated = query(clone(target));
     return evaluated ? pick(target, evaluated) : {};
   } else if (typeof target !== 'object' || target === null) {
     return target;
@@ -25,7 +28,7 @@ module.exports = function pick(target, query) {
               typeof innerQuery === 'string') {
             picked = { [key]: pick(innerTarget, innerQuery) };
           } else if (typeof innerQuery === 'function') {
-            let evaluated = innerQuery(innerTarget);
+            let evaluated = innerQuery(clone(innerTarget));
             if (evaluated !== false) {
               picked = { [key]: pick(innerTarget, evaluated) };
             }
