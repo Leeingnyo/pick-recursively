@@ -102,7 +102,7 @@ const query3 = {
     article: { // 속성은 아무 이름이나 쓰셔도 됩니다
         // 그래도 의미있는 이름을 쓰시는 것이 좋겠죠? (foreach 에 쓰시는 변수 이름처럼)
       title: true,
-    } // 속성을 여러 개 쓰면 Object.values() 의 첫번째 원소가 들어가게 됩니다
+    } // 속성을 여러 개 쓰면 Object.key() 의 첫번째 원소가 들어가게 됩니다
   },
   count: true
 };

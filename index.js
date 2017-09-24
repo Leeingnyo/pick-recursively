@@ -9,7 +9,7 @@ module.exports = function pick(target, query) {
   } else if (typeof target !== 'object' || target === null) {
     return target;
   } else if (Array.isArray(target)) {
-    let innerQuery = Object.values(query)[0];
+    let innerQuery = query[Object.keys(query)[0]];
     return target.filter(item =>
       typeof innerQuery === 'function' ? innerQuery(item) !== false : true
     ).map(item => pick(item, innerQuery));

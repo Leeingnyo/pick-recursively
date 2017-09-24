@@ -102,7 +102,7 @@ const query3 = {
     article: { // you can use any name for the property
         // but I recommend you to use a meaningful name (use a name you use in foreach statement)
       title: true,
-    } // if it has properties more than one, it follows the implementation of Object.values
+    } // if it has properties more than one, it follows the implementation of Object.keys
   },
   count: true
 };
