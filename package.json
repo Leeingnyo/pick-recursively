@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/Leeingnyo/pick-recursively/issues"
   },
-  "homepage": "https://github.com/Leeingnyo/pick-recursively#readme"
+  "homepage": "https://github.com/Leeingnyo/pick-recursively#readme",
+  "dependencies": {
+    "clone-deep": "^1.0.0"
+  }
 }
